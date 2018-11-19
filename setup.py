@@ -7,7 +7,8 @@ with open('README.rst') as readme_file:
     readme = readme_file.read()
 
 requirements = [
-    'girder>=3.0.0a1'
+    'girder>=3.0.0a1',
+    'netaddr>=0.7.19'
 ]
 
 setup(
