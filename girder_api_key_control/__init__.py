@@ -1,5 +1,6 @@
 import cherrypy
 import jsonschema
+from girder.api import access
 from girder import events, plugin
 from girder.exceptions import RestException, ValidationException
 from girder.models.setting import Setting
@@ -30,7 +31,7 @@ def _validateWhitelist(doc):
         raise ValidationException('Invalid network notation: ' + cidr)
 
 
-
+@access.public
 def _validateIp(event):
     whitelist = Setting().get(PLUGIN_SETTING_WHITELIST, [])
     ip = IPAddress(cherrypy.request.remote.ip)
@@ -43,4 +44,4 @@ class GirderPlugin(plugin.GirderPlugin):
     DISPLAY_NAME = 'API key control'
 
     def load(self, info):
-        events.bind('rest.post.api_key/token.before', _validateIp)
+        events.bind('rest.post.api_key/token.before', 'api_key_control', _validateIp)
