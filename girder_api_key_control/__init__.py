@@ -31,7 +31,7 @@ def _validateWhitelist(doc):
         raise ValidationException('Invalid network notation: ' + cidr)
 
 
-@access.public
+@access.unauthenticated
 def _validateIp(event):
     whitelist = Setting().get(PLUGIN_SETTING_WHITELIST, [])
     ip = IPAddress(cherrypy.request.remote.ip)
